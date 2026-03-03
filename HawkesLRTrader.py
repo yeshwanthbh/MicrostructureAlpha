@@ -20,7 +20,7 @@ class HawkesBSI:
         self._kappa = float(kappa)
         self._metrics = None
 
-    def eval(self, df: pd.DataFrame) -> pd.DataFrame:
+    def eval(self, df: pd.DataFrame):
         if isinstance(df.index, pd.DatetimeIndex):
             times = df.index
         else:
@@ -43,7 +43,7 @@ class HawkesBSI:
         return self._metrics
 
     @staticmethod
-    def _compute_bsi(dv: np.ndarray, decay: float) -> np.ndarray:
+    def _compute_bsi(dv: np.ndarray, decay: float):
         out = np.zeros_like(dv, dtype=float)
         bsi = 0.0
         for i in range(len(dv)):
@@ -86,13 +86,13 @@ class LogisticRegressionModel:
         self.scaler = scaler
         self.y      = metrics["y"].values
 
-    def train(self) -> LogisticRegression:
+    def train(self):
         clf = LogisticRegression(solver="lbfgs", max_iter=1_000_000_000)
         clf.fit(self.X_scaled, self.y)
         return clf
 
     @staticmethod
-    def decide(row, min_prob: float) -> int:
+    def decide(row, min_prob: float):
         if row["p_buy"]  >= min_prob: return  1
         if row["p_sell"] >= min_prob: return -1
         return 0
@@ -654,3 +654,4 @@ def main(csv_path, save_dir, min_prob=0.7, leverage=1):
 
 if __name__ == "__main__":
     main(csv_path="path/to/your/data.csv", save_dir="path/to/save")
+
