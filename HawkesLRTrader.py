@@ -110,10 +110,6 @@ class LogisticRegressionModel:
         mask    = (self.metrics["p_buy"] >= min_prob) | (self.metrics["p_sell"] >= min_prob)
         total   = mask.sum()
         correct = (self.metrics.loc[mask, "pred"] == self.metrics.loc[mask, "y"]).sum()
-        if total > 0:
-            print(f"In-sample signal accuracy (threshold={min_prob}): {correct / total:.2%}  ({total} signals)")
-        else:
-            print("No confident predictions.")
 
 def remove_outliers(data):
     if len(data) == 0:
@@ -489,7 +485,7 @@ def realistic_backtest(
     accuracy         = correct_trades / n_trades * 100 if n_trades > 0 else 0.0
     avg_fill         = np.mean(fill_fractions) * 100 if fill_fractions else 100.0
 
-    print(f"[realistic_backtest | latency={latency_sec*1000:.0f}ms base | jitter={jitter_sec*1000:.0f}ms @ {jitter_prob*100:.0f}% prob]")
+    print(f"  realistic_backtest | latency={latency_sec*1000:.0f}ms base | jitter={jitter_sec*1000:.0f}ms @ {jitter_prob*100:.0f}% prob")
     print(f"  spread=+-${half_spread:.4f} | slippage=${slippage_std:.4f} | borrow={borrow_rate_annual*100:.1f}%/yr")
     print(f"  commission=${commission_per_trade:.2f}/trade | partial_fill={partial_fill_prob*100:.0f}% | rejection={rejection_prob*100:.1f}% | feed_gap={feed_gap_prob*100:.2f}%")
     print(f"──────────────────────────────────────────────────")
@@ -657,4 +653,5 @@ def main(csv_path, save_dir, min_prob=0.7, leverage=1):
     return bt_results, rbt_results
 
 if __name__ == "__main__":
+
     main(csv_path="path/to/your/data.csv", save_dir="path/to/save")
