@@ -653,6 +653,4 @@ def main(csv_path, save_dir, min_prob=0.7, leverage=1):
     return bt_results, rbt_results
 
 if __name__ == "__main__":
-
     main(csv_path="path/to/your/data.csv", save_dir="path/to/save")
-
